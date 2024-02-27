@@ -73,8 +73,9 @@ Go to the folder directory and install the dependencies
 Run it!
 ========
 
+Run it and map fixations on facial landmarks!
+
 .. code-block:: python
    pl-fixations-on-face
-
 
 For any questions/bugs, reach out to our `Discord server <https://pupil-labs.com/chat/>`__  or send us an email to info@pupil-labs.com. 
