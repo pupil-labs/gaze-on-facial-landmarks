@@ -7,7 +7,7 @@ Welcome to |project| documentation!
    history
 
 
-.. automodule:: skeleton
+.. automodule:: map_fixations_on_face
     :members:
     :undoc-members:
     :show-inheritance:
