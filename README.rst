@@ -75,3 +75,4 @@ Run it!
 .. code-block:: python
    pl-fixations-on-face
 
+For any questions/bugs, reach out to our `Discord server<https://pupil-labs.com/chat/>` or send us an email to info@pupil-labs.com. 
