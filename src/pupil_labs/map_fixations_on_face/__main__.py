@@ -36,7 +36,16 @@ def run_all(args_input):
     )
     logging.getLogger("libav.swscaler").setLevel(logging.ERROR)
 
+    # Output folder should be the face mapper enrichment folder
     output_path = face_folder
+
+    # Get the first (and only) subfolder within the first level
+    subfolders = [folder for folder in raw_data_folder.iterdir() if folder.is_dir()]
+    if subfolders:
+        selected_second_level = subfolders[0].name
+        raw_data_folder = raw_data_folder / selected_second_level
+    else:
+        logging.info("No subfolders found")
 
     logging.info(
         "[white bold on #0d122a]◎ Fixation-on-face by Pupil Labs[/]",
@@ -337,7 +346,7 @@ def run_main():
                 "ellipse_size": ellipse_size_var.get(),
                 "start": start_var.get(),
                 "end": end_var.get(),
-                "plot_all": plot_gaze_var,
+                "plot_all": plot_gaze_var.get(),
             },
         ),
     ).pack()

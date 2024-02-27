@@ -1,22 +1,6 @@
 import warnings
 import logging
-import os
-import math
-import glob
-
-import av
-import cv2
-import numpy as np
 import pandas as pd
-import tkinter as tk
-import pupil_labs.map_fixations_on_face.map_fixations as map_fixations
-# from fractions import Fraction
-# from pathlib import Path
-# from pupil_labs.dynamic_content_on_rim.uitools.ui_tools import get_savedir
-# from pupil_labs.dynamic_content_on_rim.video.read import get_frame, read_video_ts
-
-# from rich.logging import RichHandler
-# from rich.progress import Progress
 warnings.filterwarnings("ignore")
 
 ## Map fixations on facial landmarks
