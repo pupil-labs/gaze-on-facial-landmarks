@@ -43,30 +43,33 @@ Make sure you have tkinter module installed, this usually comes with most modern
 
 Check if you have tkinter installed: 
 
-..  code-block:: python
+::
 
     python -m tkinter
 
 If you don't have it installed, install it:
 
-..  code-block:: python
+::
 
     brew install python-tk@3.11 # Change according to your python version
 
 In order to download the package, you can simply run the following command from the terminal:
 
-..  code-block:: python
+::
+
    git clone https://github.com/pupil-labs/fixations-on-face.git
 
 Optional, but highly recommended: Create a virtual environment!
 
-..  code-block:: python    
+::
+
       python3.11 -m venv venv
       source venv/bin/activate
 
 Go to the folder directory and install the dependencies
 
-.. code-block:: python
+::
+
    cd your_directory/map_fixations_on_face
    pip install -e . 
 
