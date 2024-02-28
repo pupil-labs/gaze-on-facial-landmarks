@@ -254,7 +254,7 @@ def run_all(args_input):
                       cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
                   if plot_all:
-                    cv2.circle(frame, xyg, 20, (0, 0, 255), 10)
+                    cv2.circle(frame, xyg, int(circle), (0, 0, 255), 10)
                   else:
                     continue
                   # Finally get the frame ready.
