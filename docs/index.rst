@@ -7,7 +7,7 @@ Welcome to |project| documentation!
    history
 
 
-.. automodule:: map_fixations_on_face
+.. automodule:: gaze_on_facial_landmarks
     :members:
     :undoc-members:
     :show-inheritance:

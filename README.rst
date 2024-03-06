@@ -29,8 +29,8 @@ TBD
 Introduction
 ============
 
-This project allows you to leverage the output of Pupil Cloud's `Face Mapper <https://docs.pupil-labs.com/neon/pupil-cloud/enrichments/face-mapper/>`__ and map fixations on facial landmarks detected in the scene camera.
-It generates a new visualization with the detected facial landmarks overlaid on the video and fixations/gaze on top, and also generates a new CSV file with the mapped fixations on facial landmarks. 
+This project allows you to leverage the output of Pupil Cloud's `Face Mapper <https://docs.pupil-labs.com/neon/pupil-cloud/enrichments/face-mapper/>`__ and map gaze on facial landmarks detected in the scene camera.
+It generates a new visualization with the detected facial landmarks overlaid on the video and gaze on top, and also generates a new CSV file with the mapped gaze on facial landmarks. 
 
 Requirements
 ============
@@ -70,16 +70,16 @@ Go to the folder directory and install the dependencies
 
 ::
 
-   cd your_directory/map_fixations_on_face
+   cd your_directory/gaze_on_facial_landmarks
    pip install -e . 
 
 Run it!
 ========
 
-Run it and map fixations on facial landmarks!
+Run it and map gaze on facial landmarks!
 
 ::
 
-   pl-fixations-on-face
+   pl-gaze_on_facial_landmarks
 
 For any questions/bugs, reach out to our `Discord server <https://pupil-labs.com/chat/>`__  or send us an email to info@pupil-labs.com. 
