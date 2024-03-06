@@ -55,7 +55,7 @@ In order to download the package, you can simply run the following command from 
 
 ::
 
-   git clone https://github.com/pupil-labs/fixations-on-face.git
+   git clone https://github.com/pupil-labs/gaze-on-facial-landmarks.git
 
 Optional, but highly recommended: Create a virtual environment!
 
