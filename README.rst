@@ -68,7 +68,7 @@ Go to the folder directory and install the dependencies
 
 ::
 
-   cd your_directory/gaze_on_facial_landmarks
+   cd your_directory/gaze-on-facial-landmarks
    pip install -e . 
 
 Run it!
@@ -78,6 +78,6 @@ Run it and map gaze on facial landmarks!
 
 ::
 
-   pl-gaze_on_facial_landmarks
+   pl-gaze-on-facial-landmarks  
 
 For any questions/bugs, reach out to our `Discord server <https://pupil-labs.com/chat/>`__  or send us an email to info@pupil-labs.com. 

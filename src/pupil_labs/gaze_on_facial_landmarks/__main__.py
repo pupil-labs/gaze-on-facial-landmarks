@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import tkinter as tk
-import pupil_labs.map_fixations_on_face.map_on_landmarks as map_on_landmarks
+import pupil_labs.gaze_on_facial_landmarks.map_on_landmarks as map_on_landmarks
 
 from rich.logging import RichHandler
 from tkinter import filedialog
@@ -291,9 +291,6 @@ def run_main():
     # Entry for Face Mapper Directory
     tk.Label(root, text="Face Mapper directory").pack()
     face_mapper_output_folder = tk.StringVar()
-    face_mapper_output_folder.set(
-        "/Users/nadiapl/Downloads/short test/FaceMapperFixes_FACE-MAPPER_facemappingfix"
-    )
     tk.Entry(root, textvariable=face_mapper_output_folder).pack()
     tk.Button(
         root, text="Browse", command=lambda: browse_directory(face_mapper_output_folder)
@@ -302,9 +299,6 @@ def run_main():
     # Entry for Raw Data Directory
     tk.Label(root, text="Raw data directory").pack()
     raw_data_output_folder = tk.StringVar()
-    raw_data_output_folder.set(
-        "/Users/nadiapl/Downloads/short test/Timeseries Data + Scene Video (2)"
-    )
     tk.Entry(root, textvariable=raw_data_output_folder).pack()
     tk.Button(
         root, text="Browse", command=lambda: browse_directory(raw_data_output_folder)

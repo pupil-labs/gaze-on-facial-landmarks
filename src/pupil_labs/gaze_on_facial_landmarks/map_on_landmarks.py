@@ -1,7 +1,7 @@
 import warnings
 import cv2
 import logging
-from pupil_labs.map_fixations_on_face.getpoints import (
+from pupil_labs.gaze_on_facial_landmarks.getpoints import (
     circles_overlap,
     circle_ellipse_overlap,
 )
