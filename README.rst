@@ -22,8 +22,6 @@
 
 TBD
 ============
-- Color map fixated landmark 
-- Check cloud fix on data output
 - Check that everything works with other events 
 
 Introduction
