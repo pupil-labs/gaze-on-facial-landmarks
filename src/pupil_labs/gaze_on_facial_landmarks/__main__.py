@@ -270,7 +270,10 @@ def run_all(args_input):
                 out_container.close()
 
             # save the csvs
-            merged_video.to_csv(out_csv, index=False)
+            selected_columns = ["frames", "pts","timestamp [ns]", "p1 x [px]", "p1 y [px]","p2 x [px]",	"p2 y [px]","eye left x [px]", "eye left y [px]","eye right x [px]",	"eye right y [px]",	"nose x [px]",
+                                "nose y [px]",	"mouth left x [px]",	"mouth left y [px]",	"mouth right x [px]",	"mouth right y [px]",	"section id_y",	"recording id_y", "gaze x [px]", "gaze y [px]",	"gaze on face", "landmark"]
+            merged_selected = merged_video[selected_columns]
+            merged_selected.to_csv(out_csv, index=False)
             logging.info(f"CSV files saved at: {out_csv}")
 
             logging.info(
