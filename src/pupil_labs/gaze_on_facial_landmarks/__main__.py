@@ -221,7 +221,7 @@ def run_all(args_input):
 
                     # make a aoi_circle on the gaze
                     if not np.isnan(xy).any():
-                        cv2.circle(frame, xy, gaze_circle_size, (255, 0, 0), 10)
+                        cv2.circle(frame, xy, gaze_circle_size, (0, 0, 255), 10)
 
                         text_landmark = f"{landmark_list}"
                         text_location = (frame.shape[1] - 500, 50)
