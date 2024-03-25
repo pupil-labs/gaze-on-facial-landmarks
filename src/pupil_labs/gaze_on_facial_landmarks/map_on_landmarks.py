@@ -1,12 +1,12 @@
 import warnings
 import cv2
 import logging
+import os
+import pandas as pd
 from pupil_labs.gaze_on_facial_landmarks.getpoints import (
     circles_overlap,
     circle_ellipse_overlap,
 )
-# import math
-
 warnings.filterwarnings("ignore")
 
 
@@ -138,3 +138,40 @@ def map_and_draw(frame, face_info, aoi_size, ellipse_size, gaze_crcl_size):
 
     logging.info(f"Gaze point mapping outcome: {unique_list}. ")
     return unique_list, mapped_gaze_on_face, gaze_coordinates
+
+
+def get_percentages(df):
+    # Filter rows where 'gaze on face' is True
+    gaze_true_data = df[df['gaze on face'] == True]
+
+    # Count occurrences of each category in 'landmark' column
+    landmark_counts = gaze_true_data['landmark'].explode().value_counts()
+    # Initialize an empty dictionary to store individual landmarks and their counts
+    individual_landmarks_counts = {}
+
+    # Iterate over the landmark counts
+    for index, count in landmark_counts.items():
+        # Convert the string representation of a list to a list
+        landmarks = index.strip('[]').split(', ')
+        for landmark in landmarks:
+            landmark = landmark.strip("'")  # Remove single quotes from the landmark string
+            individual_landmarks_counts[landmark] = individual_landmarks_counts.get(landmark, 0) + count
+
+    # Convert the dictionary to a DataFrame
+    individual_landmarks_df = pd.DataFrame(individual_landmarks_counts.items(), columns=['landmark', 'count'])
+
+    # Calculate percentage of rows for each individual landmark
+    individual_landmarks_df['percentage'] = (individual_landmarks_df['count'] / individual_landmarks_df['count'].sum()) * 100
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.bar(individual_landmarks_df['landmark'], individual_landmarks_df['percentage'], color='blue') 
+    plt.title('Percentage of Gaze Mapped on Different Areas of Interest')
+    plt.xlabel('Landmark')
+    plt.ylabel('Percentage')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    figure_path = os.path.join(output_path, "gaze_mapped_areas.png")
+    plt.savefig(figure_path)
+    logging.info(f"Barplot saved at: {figure_path}")
