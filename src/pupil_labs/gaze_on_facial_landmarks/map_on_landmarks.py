@@ -3,6 +3,7 @@ import cv2
 import logging
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from pupil_labs.gaze_on_facial_landmarks.getpoints import (
     circles_overlap,
     circle_ellipse_overlap,
@@ -162,16 +163,18 @@ def get_percentages(df):
 
     # Calculate percentage of rows for each individual landmark
     individual_landmarks_df['percentage'] = (individual_landmarks_df['count'] / individual_landmarks_df['count'].sum()) * 100
+    return individual_landmarks_df
 
+def plot_percentages(df_perc, out_path):
     # Plotting
     plt.figure(figsize=(10, 6))
-    plt.bar(individual_landmarks_df['landmark'], individual_landmarks_df['percentage'], color='blue') 
+    plt.bar(df_perc['landmark'], df_perc['percentage'], color='blue') 
     plt.title('Percentage of Gaze Mapped on Different Areas of Interest')
     plt.xlabel('Landmark')
     plt.ylabel('Percentage')
     plt.xticks(rotation=45)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    #plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    figure_path = os.path.join(output_path, "gaze_mapped_areas.png")
+    figure_path = os.path.join(out_path, "gaze_mapped_areas.png")
     plt.savefig(figure_path)
     logging.info(f"Barplot saved at: {figure_path}")

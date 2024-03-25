@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 import tkinter as tk
 import pupil_labs.gaze_on_facial_landmarks.map_on_landmarks as map_on_landmarks
-import matplotlib.pyplot as plt
 
 from rich.logging import RichHandler
 from tkinter import filedialog
@@ -283,47 +282,19 @@ def run_all(args_input):
             merged_selected.to_csv(out_csv, index=False)
             logging.info(f"CSV files saved at: {out_csv}")
 
-            # Filter rows where 'gaze on face' is True
-            gaze_true_data = merged_selected[merged_selected['gaze on face'] == True]
-
-            # Count occurrences of each category in 'landmark' column
-            landmark_counts = gaze_true_data['landmark'].explode().value_counts()
-            # Initialize an empty dictionary to store individual landmarks and their counts
-            individual_landmarks_counts = {}
-
-            # Iterate over the landmark counts
-            for index, count in landmark_counts.items():
-                # Convert the string representation of a list to a list
-                landmarks = index.strip('[]').split(', ')
-                for landmark in landmarks:
-                    landmark = landmark.strip("'")  # Remove single quotes from the landmark string
-                    individual_landmarks_counts[landmark] = individual_landmarks_counts.get(landmark, 0) + count
-
-            # Convert the dictionary to a DataFrame
-            individual_landmarks_df = pd.DataFrame(individual_landmarks_counts.items(), columns=['landmark', 'count'])
-
-            # Calculate percentage of rows for each individual landmark
-            individual_landmarks_df['percentage'] = (individual_landmarks_df['count'] / individual_landmarks_df['count'].sum()) * 100
+            # Count percentages of mapped data on each AOI
+            percentages_df = map_on_landmarks.get_percentages(merged_selected)
             percentages_path = os.path.join(output_path, "_percentages.csv")
-            individual_landmarks_df.to_csv(percentages_path, index=False)
+            percentages_df.to_csv(percentages_path, index=False)
             logging.info(f"Percentages were saved at {percentages_path}")
-            # Plotting
-            plt.figure(figsize=(10, 6))
-            plt.bar(individual_landmarks_df['landmark'], individual_landmarks_df['percentage'], color='blue') 
-            plt.title('Percentage of Gaze Mapped on Different Areas of Interest')
-            plt.xlabel('Landmark')
-            plt.ylabel('Percentage')
-            plt.xticks(rotation=45)
-            plt.grid(axis='y', linestyle='--', alpha=0.7)
-            plt.tight_layout()
-            figure_path = os.path.join(output_path, "gaze_mapped_areas.png")
-            plt.savefig(figure_path)
-            logging.info(f"Barplot saved at: {figure_path}")
+
+            # Plot the percentages in a barplot
+            map_on_landmarks.plot_percentages(percentages_df, output_path)
+          
             logging.info(
                 "[white bold on #0d122a]◎ Mapping and rendering completed! ⚡️[/]",
                 extra={"markup": True},
             )
-
 
 def browse_directory(entry_var):
     directory = filedialog.askdirectory()
