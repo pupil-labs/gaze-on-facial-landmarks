@@ -20,6 +20,9 @@ from rich.progress import Progress
 
 warnings.filterwarnings("ignore")
 
+# TODO 
+# - make bounding box as big as text
+# - remove not mapped 
 
 def run_all(args_input):
     face_folder = Path(args_input.get("face_mapper_output_folder"))
@@ -204,6 +207,9 @@ def run_all(args_input):
                     ) = map_on_landmarks.map_and_draw(
                         frame, row, aoi_circle, ellipse, gaze_circle_size
                     )
+
+                    # if gaze was mapped on at least one landmark, let's remove the "not on landmark" item
+                    landmark_list = [item for item in landmark_list if item != "Not on landmark" or len(landmark_list) == 1]
 
                     merged_video.at[num_processed_frames, "landmark"] = landmark_list
                     xy = np.array(gaze_coor, dtype=np.int32)
