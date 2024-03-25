@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import tkinter as tk
 import pupil_labs.gaze_on_facial_landmarks.map_on_landmarks as map_on_landmarks
+import pupil_labs.gaze_on_facial_landmarks.check_ids as sanity_checks
 
 from rich.logging import RichHandler
 from tkinter import filedialog
@@ -19,10 +20,6 @@ from pupil_labs.dynamic_content_on_rim.video.read import get_frame, read_video_t
 from rich.progress import Progress
 
 warnings.filterwarnings("ignore")
-
-# TODO 
-# - make bounding box as big as text
-# - remove not mapped 
 
 def run_all(args_input):
     face_folder = Path(args_input.get("face_mapper_output_folder"))
@@ -47,11 +44,19 @@ def run_all(args_input):
     logging.info(f"Gaze circle size: {gaze_circle_size}")
     # Get the subfolder within the first level
     subfolders = [folder for folder in raw_data_folder.iterdir() if folder.is_dir()]
-    if subfolders:
-        selected_second_level = subfolders[0].name
-        raw_data_folder = raw_data_folder / selected_second_level
-    else:
+    
+    if not subfolders:
         logging.info("No subfolders found")
+    elif len(subfolders) == 1:
+        raw_data_folder = subfolders[0]
+    else:
+        logging.info("Multiple subfolders found:")
+        for i, folder in enumerate(subfolders):
+            logging.info(f"{i + 1}. {folder.name}")
+        choice = input("Enter the number of the folder you want to select: ")
+        while not choice.isdigit() or int(choice) < 1 or int(choice) > len(subfolders):
+            choice = input("Invalid input. Please enter a valid number: ")
+        raw_data_folder = subfolders[int(choice) - 1]
 
     logging.info(
         "[white bold on #0d122a]◎ Mapping gaze on facial landmarks by Pupil Labs[/]",
@@ -71,6 +76,11 @@ def run_all(args_input):
 
     gaze_df = pd.read_csv(Path(raw_data_folder, "gaze.csv"), dtype=oftype)
     gaze_on_face = pd.read_csv(Path(face_folder, "gaze_on_face.csv"), dtype=oftype)
+    
+    # Check if files belong to the same recording
+    gaze_on_face = sanity_checks.check_ids(gaze_df, world_timestamps_df, gaze_on_face)
+    logging.info(gaze_on_face)
+    recording_id = gaze_df['recording id'][0]
     selected_col = ["timestamp [ns]", "gaze on face"]
     gaze_face = gaze_on_face[selected_col]
     gaze_all = pd.merge_asof(
@@ -158,11 +168,11 @@ def run_all(args_input):
     # Get the output path
     if output_path is None:
         output_file = get_savedir(None, type="video")
-        out_csv = output_file.replace(os.path.split(output_file)[1], "merged_data.csv")
+        out_csv = output_file.replace(os.path.split(output_file)[1], f"{recording_id}_merged_data.csv")
         output_path = os.path.split(output_file)[0]
     else:
-        output_file = os.path.join(output_path, "gaze-on-face.mp4")
-        out_csv = os.path.join(output_path, "merged_data.csv")
+        output_file = os.path.join(output_path, f"{recording_id}_gaze-on-face.mp4")
+        out_csv = os.path.join(output_path, f"{recording_id}_merged_data.csv")
     logging.info(f"Output path: {output_file}")
 
     # Here we go!
@@ -284,12 +294,12 @@ def run_all(args_input):
 
             # Count percentages of mapped data on each AOI
             percentages_df = map_on_landmarks.get_percentages(merged_selected)
-            percentages_path = os.path.join(output_path, "_percentages.csv")
+            percentages_path = os.path.join(output_path, f"{recording_id}__percentages.csv")
             percentages_df.to_csv(percentages_path, index=False)
             logging.info(f"Percentages were saved at {percentages_path}")
 
             # Plot the percentages in a barplot
-            map_on_landmarks.plot_percentages(percentages_df, output_path)
+            map_on_landmarks.plot_percentages(percentages_df, output_path, recording_id)
           
             logging.info(
                 "[white bold on #0d122a]◎ Mapping and rendering completed! ⚡️[/]",

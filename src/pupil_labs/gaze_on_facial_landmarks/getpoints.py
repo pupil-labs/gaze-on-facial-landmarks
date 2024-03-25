@@ -1,7 +1,6 @@
 # # Helpers to get overlap between gaze and AOI points
 import math
 
-
 def circles_overlap(center1, radius1, center2, radius2):
     distance_between_centers = math.sqrt(
         (center1[0] - center2[0]) ** 2 + (center1[1] - center2[1]) ** 2

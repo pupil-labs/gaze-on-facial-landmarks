@@ -165,7 +165,7 @@ def get_percentages(df):
     individual_landmarks_df['percentage'] = (individual_landmarks_df['count'] / individual_landmarks_df['count'].sum()) * 100
     return individual_landmarks_df
 
-def plot_percentages(df_perc, out_path):
+def plot_percentages(df_perc, out_path, rec_id):
     # Plotting
     plt.figure(figsize=(10, 6))
     plt.bar(df_perc['landmark'], df_perc['percentage'], color='blue') 
@@ -175,6 +175,6 @@ def plot_percentages(df_perc, out_path):
     plt.xticks(rotation=45)
     #plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    figure_path = os.path.join(out_path, "gaze_mapped_areas.png")
+    figure_path = os.path.join(out_path, f"{rec_id}_gaze_mapped_areas.png")
     plt.savefig(figure_path)
     logging.info(f"Barplot saved at: {figure_path}")
