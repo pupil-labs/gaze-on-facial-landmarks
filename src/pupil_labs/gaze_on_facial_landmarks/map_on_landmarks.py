@@ -136,10 +136,8 @@ def map_and_draw(frame, face_info, aoi_size, ellipse_size, gaze_crcl_size):
         )
     unique_elements = set(landmark_list)
     unique_list = list(unique_elements)
-
     logging.info(f"Gaze point mapping outcome: {unique_list}. ")
     return unique_list, mapped_gaze_on_face, gaze_coordinates
-
 
 def get_percentages(df):
     # Filter rows where 'gaze on face' is True
@@ -165,16 +163,31 @@ def get_percentages(df):
     individual_landmarks_df['percentage'] = (individual_landmarks_df['count'] / individual_landmarks_df['count'].sum()) * 100
     return individual_landmarks_df
 
-def plot_percentages(df_perc, out_path, rec_id):
+def plot_percentages(df_perc, out_path):
+    # Plotting
+    # Define custom colors
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+
     # Plotting
     plt.figure(figsize=(10, 6))
-    plt.bar(df_perc['landmark'], df_perc['percentage'], color='blue') 
-    plt.title('Percentage of Gaze Mapped on Different Areas of Interest')
-    plt.xlabel('Landmark')
-    plt.ylabel('Percentage')
-    plt.xticks(rotation=45)
-    #plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.bar(df_perc['landmark'], df_perc['percentage'], color=colors) 
+    
+    # Adjusting font size and style
+    plt.title('Percentage of Gaze Mapped on Different Areas of Interest', fontsize=20, fontweight='bold')
+    plt.xlabel('Landmark', fontsize=16)
+    plt.ylabel('%-Gaze Mapped \n(out of all data detected on face))', fontsize=16)
+    plt.xticks(rotation=45, fontsize=16)
+    plt.yticks(fontsize=14)
     plt.tight_layout()
-    figure_path = os.path.join(out_path, f"{rec_id}_gaze_mapped_areas.png")
+    figure_path = os.path.join(out_path, "_barplot.png")
     plt.savefig(figure_path)
     logging.info(f"Barplot saved at: {figure_path}")
+
+    # Plotting Pie Chart
+    plt.figure(figsize=(8, 8))
+    plt.pie(df_perc['percentage'], labels=df_perc['landmark'], colors=colors, autopct='%1.1f%%', startangle=140)
+    plt.title('Percentage of Gaze Mapped on Different Areas of Interest', fontsize=16, fontweight='bold')
+    pie_path = os.path.join(out_path, "_pie.png")
+    # Save the plot to out_path
+    plt.savefig(pie_path)
+    logging.info(f"Pie chart saved at: {pie_path}")

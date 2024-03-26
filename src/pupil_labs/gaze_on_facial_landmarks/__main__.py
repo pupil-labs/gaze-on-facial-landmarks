@@ -38,9 +38,6 @@ def run_all(args_input):
         handlers=[RichHandler()],
     )
     logging.getLogger("libav.swscaler").setLevel(logging.ERROR)
-
-    # Output folder should be the face mapper enrichment folder
-    output_path = face_folder
     logging.info(f"Gaze circle size: {gaze_circle_size}")
     # Get the subfolder within the first level
     subfolders = [folder for folder in raw_data_folder.iterdir() if folder.is_dir()]
@@ -58,6 +55,8 @@ def run_all(args_input):
             choice = input("Invalid input. Please enter a valid number: ")
         raw_data_folder = subfolders[int(choice) - 1]
 
+     # Output folder should be the face mapper enrichment folder
+    output_path = raw_data_folder
     logging.info(
         "[white bold on #0d122a]◎ Mapping gaze on facial landmarks by Pupil Labs[/]",
         extra={"markup": True},
@@ -168,11 +167,11 @@ def run_all(args_input):
     # Get the output path
     if output_path is None:
         output_file = get_savedir(None, type="video")
-        out_csv = output_file.replace(os.path.split(output_file)[1], f"{recording_id}_merged_data.csv")
+        out_csv = output_file.replace(os.path.split(output_file)[1], "_merged_data.csv")
         output_path = os.path.split(output_file)[0]
     else:
-        output_file = os.path.join(output_path, f"{recording_id}_gaze-on-face.mp4")
-        out_csv = os.path.join(output_path, f"{recording_id}_merged_data.csv")
+        output_file = os.path.join(output_path, "_gaze-on-face.mp4")
+        out_csv = os.path.join(output_path, "_merged_data.csv")
     logging.info(f"Output path: {output_file}")
 
     # Here we go!
@@ -294,12 +293,12 @@ def run_all(args_input):
 
             # Count percentages of mapped data on each AOI
             percentages_df = map_on_landmarks.get_percentages(merged_selected)
-            percentages_path = os.path.join(output_path, f"{recording_id}__percentages.csv")
+            percentages_path = os.path.join(output_path, "_percentages.csv")
             percentages_df.to_csv(percentages_path, index=False)
             logging.info(f"Percentages were saved at {percentages_path}")
 
             # Plot the percentages in a barplot
-            map_on_landmarks.plot_percentages(percentages_df, output_path, recording_id)
+            map_on_landmarks.plot_percentages(percentages_df, output_path)
           
             logging.info(
                 "[white bold on #0d122a]◎ Mapping and rendering completed! ⚡️[/]",
