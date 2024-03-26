@@ -20,10 +20,6 @@
 .. image:: https://img.shields.io/badge/skeleton-2022-informational
    :target: https://blog.jaraco.com/skeleton
 
-TBD
-============
-- Check that everything works with other events 
-
 Introduction
 ============
 
