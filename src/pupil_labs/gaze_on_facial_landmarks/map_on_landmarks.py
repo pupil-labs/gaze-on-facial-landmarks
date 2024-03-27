@@ -169,25 +169,25 @@ def plot_percentages(df_perc, out_path):
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
     # Plotting
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 10))
     plt.bar(df_perc['landmark'], df_perc['percentage'], color=colors) 
     
     # Adjusting font size and style
-    plt.title('Percentage of Gaze Mapped on Different Areas of Interest', fontsize=20, fontweight='bold')
-    plt.xlabel('Landmark', fontsize=16)
-    plt.ylabel('%-Gaze Mapped \n(out of all data detected on face))', fontsize=16)
-    plt.xticks(rotation=45, fontsize=16)
-    plt.yticks(fontsize=14)
+    plt.title('Percentage of Gaze Mapped on Different Landmarks', fontsize=30, fontweight='bold')
+    plt.xlabel('Landmark', fontsize=28)
+    plt.ylabel('%-Gaze Mapped \n(out of all data detected on face)', fontsize=28)
+    plt.xticks(rotation=45, fontsize=25)
+    plt.yticks(fontsize=25)
     plt.tight_layout()
     figure_path = os.path.join(out_path, "_barplot.png")
-    plt.savefig(figure_path)
+    plt.savefig(figure_path, bbox_inches='tight', pad_inches=1.0)
     logging.info(f"Barplot saved at: {figure_path}")
 
     # Plotting Pie Chart
-    plt.figure(figsize=(8, 8))
-    plt.pie(df_perc['percentage'], labels=df_perc['landmark'], colors=colors, autopct='%1.1f%%', startangle=140)
-    plt.title('Percentage of Gaze Mapped on Different Areas of Interest', fontsize=16, fontweight='bold')
+    plt.figure(figsize=(12, 10))
+    plt.pie(df_perc['percentage'], labels=df_perc['landmark'], colors=colors, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 25}) # Adjust fontsize here
+    plt.title('Percentage of Gaze Mapped on Different Landmarks', fontsize=30, fontweight='bold')
     pie_path = os.path.join(out_path, "_pie.png")
     # Save the plot to out_path
-    plt.savefig(pie_path)
+    plt.savefig(pie_path,bbox_inches='tight', pad_inches=1.0)
     logging.info(f"Pie chart saved at: {pie_path}")

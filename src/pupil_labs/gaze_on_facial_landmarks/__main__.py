@@ -55,8 +55,15 @@ def run_all(args_input):
             choice = input("Invalid input. Please enter a valid number: ")
         raw_data_folder = subfolders[int(choice) - 1]
 
-     # Output folder should be the face mapper enrichment folder
-    output_path = raw_data_folder
+    output_path = os.path.join(raw_data_folder, "output_path")
+    # Check if the output folder already exists
+    if not os.path.exists(output_path):
+        # If the folder doesn't exist, create it
+        os.makedirs(output_path)
+        print(f"Output folder created at: {output_path}")
+    else:
+        print(f"Output folder already exists at: {output_path}")
+        
     logging.info(
         "[white bold on #0d122a]◎ Mapping gaze on facial landmarks by Pupil Labs[/]",
         extra={"markup": True},
@@ -79,7 +86,6 @@ def run_all(args_input):
     # Check if files belong to the same recording
     gaze_on_face = sanity_checks.check_ids(gaze_df, world_timestamps_df, gaze_on_face)
     logging.info(gaze_on_face)
-    recording_id = gaze_df['recording id'][0]
     selected_col = ["timestamp [ns]", "gaze on face"]
     gaze_face = gaze_on_face[selected_col]
     gaze_all = pd.merge_asof(
@@ -167,11 +173,11 @@ def run_all(args_input):
     # Get the output path
     if output_path is None:
         output_file = get_savedir(None, type="video")
-        out_csv = output_file.replace(os.path.split(output_file)[1], "_merged_data.csv")
+        out_csv = output_file.replace(os.path.split(output_file)[1], "merged_data.csv")
         output_path = os.path.split(output_file)[0]
     else:
-        output_file = os.path.join(output_path, "_gaze-on-face.mp4")
-        out_csv = os.path.join(output_path, "_merged_data.csv")
+        output_file = os.path.join(output_path, "gaze-on-face.mp4")
+        out_csv = os.path.join(output_path, "merged_data.csv")
     logging.info(f"Output path: {output_file}")
 
     # Here we go!
