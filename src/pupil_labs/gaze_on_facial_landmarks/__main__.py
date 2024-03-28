@@ -63,7 +63,7 @@ def run_all(args_input):
         print(f"Output folder created at: {output_path}")
     else:
         print(f"Output folder already exists at: {output_path}")
-        
+
     logging.info(
         "[white bold on #0d122a]◎ Mapping gaze on facial landmarks by Pupil Labs[/]",
         extra={"markup": True},
