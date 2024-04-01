@@ -24,12 +24,13 @@ warnings.filterwarnings("ignore")
 def run_all(args_input):
     face_folder = Path(args_input.get("face_mapper_output_folder"))
     raw_data_folder = Path(args_input.get("raw_data_output_folder"))
-    start = args_input.get("start", "")
-    end = args_input.get("end", "")
     aoi_circle = args_input.get("aoi_radius")
     ellipse = args_input.get("ellipse_size")
     gaze_circle_size = args_input.get("gaze_circle_size")
 
+    start='recording.begin'
+    end='recording.end'
+    
     logging.getLogger(__name__)
     logging.basicConfig(
         format="%(message)s",
@@ -39,6 +40,7 @@ def run_all(args_input):
     )
     logging.getLogger("libav.swscaler").setLevel(logging.ERROR)
     logging.info(f"Gaze circle size: {gaze_circle_size}")
+
     # Get the subfolder within the first level
     subfolders = [folder for folder in raw_data_folder.iterdir() if folder.is_dir()]
     
@@ -145,7 +147,7 @@ def run_all(args_input):
         on="timestamp [ns]",
         direction="nearest",
     )
-
+    
     if start != "recording.begin":
         logging.info(f"Looking for start event: {start}")
         if not events_df["name"].isin([start]).any():
@@ -153,7 +155,7 @@ def run_all(args_input):
         else:
             start = events_df[events_df["name"] == start]["timestamp [ns]"].values[0]
             merged_video = merged_video[merged_video["timestamp [ns]"] >= start]
-
+    
     if end != "recording.end":
         logging.info(f"Looking for end event: {end}")
         if not events_df["name"].isin([end]).any():
@@ -354,18 +356,6 @@ def run_main():
     gaze_size_var.set(20)
     tk.Entry(root, textvariable=gaze_size_var).pack()
 
-    # Entry for start event
-    tk.Label(root, text="Start event").pack()
-    start_var = tk.StringVar()
-    start_var.set("recording.begin")
-    tk.Entry(root, textvariable=start_var).pack()
-
-    # Entry for end event
-    tk.Label(root, text="End event").pack()
-    end_var = tk.StringVar()
-    end_var.set("recording.end")
-    tk.Entry(root, textvariable=end_var).pack()
-
     # Button to run the pipeline
     tk.Button(
         root,
@@ -378,8 +368,6 @@ def run_main():
                 "aoi_radius": aoi_radius_var.get(),
                 "ellipse_size": ellipse_size_var.get(),
                 "gaze_circle_size": gaze_size_var.get(),
-                "start": start_var.get(),
-                "end": end_var.get(),
             },
         ),
     ).pack()
