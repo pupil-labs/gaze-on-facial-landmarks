@@ -77,10 +77,18 @@ Run it and map gaze on facial landmarks!
    pl-gaze-on-facial-landmarks  
 
 Once you hit run, a pop-up window will appear prompting you to select the following:
+
 - Face Mapper output folder: The enrichment folder downloaded from Pupil Cloud
+
 - Raw data output folder: The "Timeseries Data + Scene Video" downloaded from Pupil Cloud
+
 - AOI radius: The radius of the circle to be used as an AOI mask for the eyes and nose (default: 30)
+
 - Ellipse size: The size of the ellipse to be used as an AOI mask for the mouth (default: 30)
+
 - Gaze circle size: The size of the usual red circle that reflects the gaze points (default: 20)
+
+Support
+========
 
 For any questions/bugs, reach out to our `Discord server <https://pupil-labs.com/chat/>`__  or send us an email to info@pupil-labs.com. 
