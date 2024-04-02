@@ -301,7 +301,7 @@ def run_all(args_input):
 
             # Count percentages of mapped data on each AOI
             percentages_df = map_on_landmarks.get_percentages(merged_selected)
-            percentages_path = os.path.join(output_path, "_percentages.csv")
+            percentages_path = os.path.join(output_path, "percentages.csv")
             percentages_df.to_csv(percentages_path, index=False)
             logging.info(f"Percentages were saved at {percentages_path}")
 

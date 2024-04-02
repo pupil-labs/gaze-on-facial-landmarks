@@ -13,10 +13,10 @@ warnings.filterwarnings("ignore")
 
 ## Function to draw bounding box and facial landmarks on a frame
 def map_and_draw(frame, face_info, aoi_size, ellipse_size, gaze_crcl_size):
-    transparency = 60  # Adjust this value as needed
+    transparency = 60
     # Define colors for landmarks
-    default_color = (255, 0, 0)  # Default color for landmarks
-    gaze_color = (0, 255, 0)  # Color for the gazed landmark
+    default_color = (120,120,120)  # Default color for landmarks
+    gaze_color = (0, 200, 0)  # Color for the gazed landmark
 
     # Draw bounding box
     p1 = (int(face_info["p1 x [px]"]), int(face_info["p1 y [px]"]))
@@ -73,7 +73,6 @@ def map_and_draw(frame, face_info, aoi_size, ellipse_size, gaze_crcl_size):
                 ):
                     landmark_list.append(landmark)
                     color = gaze_color
-
                 else:
                     landmark_list.append("Not on landmark")
                     color = default_color
@@ -173,21 +172,12 @@ def plot_percentages(df_perc, out_path):
     plt.bar(df_perc['landmark'], df_perc['percentage'], color=colors) 
     
     # Adjusting font size and style
-    plt.title('Percentage of Gaze Mapped on Different Landmarks', fontsize=30, fontweight='bold')
+    plt.title('Percentage of Gaze Mapped on Different Landmarks', fontsize=30, fontweight='bold', y =1.05)
     plt.xlabel('Landmark', fontsize=28)
     plt.ylabel('%-Gaze Mapped \n(out of all data detected on face)', fontsize=28)
     plt.xticks(rotation=45, fontsize=25)
     plt.yticks(fontsize=25)
     plt.tight_layout()
-    figure_path = os.path.join(out_path, "_barplot.png")
+    figure_path = os.path.join(out_path, "barplot.png")
     plt.savefig(figure_path, bbox_inches='tight', pad_inches=1.0)
     logging.info(f"Barplot saved at: {figure_path}")
-
-    # Plotting Pie Chart
-    plt.figure(figsize=(12, 10))
-    plt.pie(df_perc['percentage'], labels=df_perc['landmark'], colors=colors, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 25}) # Adjust fontsize here
-    plt.title('Percentage of Gaze Mapped on Different Landmarks', fontsize=30, fontweight='bold')
-    pie_path = os.path.join(out_path, "_pie.png")
-    # Save the plot to out_path
-    plt.savefig(pie_path,bbox_inches='tight', pad_inches=1.0)
-    logging.info(f"Pie chart saved at: {pie_path}")
