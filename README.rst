@@ -88,6 +88,8 @@ Once you hit run, a pop-up window will appear prompting you to select the follow
 
 - Gaze circle size: The size of the usual red circle that reflects the gaze points (default: 20)
 
+If there are more subfolders in the Raw data output folder (i.e., more than one recordings), you will be prompted to select which subfolder you would like to select.
+
 Support
 ========
 
