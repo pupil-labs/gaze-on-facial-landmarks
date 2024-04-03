@@ -249,6 +249,18 @@ def run_all(args_input):
                         text_landmark = f"{landmark_list}"
                         text_location = (frame.shape[1] - 500, 50)
                         text_box_size = (300, 50)
+                        
+                        # Increase font size and adjust text and box accordingly
+                        font_scale = 1.3  # Adjust the font scale as needed
+                        thickness = 2  # Adjust the thickness of the text as needed
+                        font = cv2.FONT_HERSHEY_SIMPLEX
+
+                        # Get the size of the text
+                        text_size = cv2.getTextSize(text_landmark, font, font_scale, thickness)[0]
+
+                        # Adjust the text location and box based on the new font size
+                        text_offset = (10, text_size[1] + 10) 
+                        text_box_size = (text_size[0] + 20, text_size[1] + 20) 
 
                         # Create a black box, put text inside
                         cv2.rectangle(
@@ -264,13 +276,13 @@ def run_all(args_input):
                         cv2.putText(
                             frame,
                             text_landmark,
-                            (text_location[0] + 10, text_location[1] + 35),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            0.7,
-                            (255, 255, 255),
-                            2,
-                            cv2.LINE_AA,
-                        )
+                            (text_location[0] + text_offset[0], text_location[1] + text_offset[1]),
+                                    font,
+                                    font_scale,
+                                    (255, 255, 255),
+                                    thickness,
+                                    cv2.LINE_AA,
+                                )
 
                     # Finally get the frame ready.
                     out_ = cv2.normalize(
